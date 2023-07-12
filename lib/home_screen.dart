@@ -157,6 +157,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.normal
                             )
                         ),
+                        Image.network(
+                          "https://openweathermap.org/img/wn/${weatherData?.clouds}@2x.png",width: 120,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.image,weight: 60,);
+                          },
+                        )
                       ],
                     ),
 
