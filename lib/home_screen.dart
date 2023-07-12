@@ -35,16 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
     });
 
-    Response response = await get(Uri.parse("https://api.openweathermap.org/data/2.5/weather?lat=23.899834&lon=90.241232&units=metric&appid=4689fa9df54e2aef5b7c53b5482fe63b"));
+    Response response = await get(Uri.parse(
+        "https://api.openweathermap.org/data/2.5/weather?lat=23.8479&lon=90.2576&units=metric&appid=4689fa9df54e2aef5b7c53b5482fe63b"));
     if(response.statusCode == 200 ){
       final map = json.decode(response.body);
       weatherData = WeatherData.fromJson(map);
     }else{
-      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-          backgroundColor: Colors.deepPurple,
-          content: Text('Failed to load weather data',
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+          backgroundColor: Colors.cyan,
+          content: Text(
+              'Failed to load weather data',
               style:  TextStyle(
-                  color: Colors.white,
+                  color: Colors.blue,
                   fontWeight: FontWeight.bold))));
     }
 
@@ -61,11 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [Colors.deepPurple.shade900, Colors.purple.shade800])),
+              colors: [Colors.deepPurple.shade900, Colors.purple.shade800]
+          )
+      ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue,
         appBar: AppBar(
-          title:  const Text("Flutter Weather",),
+          title:  const Text(
+            "Flutter Weather",),
           centerTitle: false,
           elevation: 5,
           actions: [
@@ -74,17 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   getWeatherData();
                   setState(() {});
 
-                }, icon: const Icon(Icons.settings)),
+                }, icon: const Icon(Icons.settings)
+            ),
             IconButton(
                 onPressed: (){
 
-                }, icon: const Icon(Icons.add)),
+                }, icon: const Icon(Icons.add)
+            ),
           ],
-          backgroundColor: const Color(0xcc7C51dE),
+          backgroundColor: const Color(0x6E1081FF),
         ),
         body: inProgress? const Center(
           child: CircularProgressIndicator(
-            backgroundColor: Color(0xfeef3e05),
+            backgroundColor: Color(0xcfcf5b65),
             strokeWidth: 5,
             color: Colors.white,
           ),
@@ -92,32 +100,70 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("${weatherData?.name}",style: const TextStyle(color: Colors.white,fontSize: 35,fontWeight: FontWeight.bold),),
-              Text("Updated:${convertTimeStampToHumanHour(weatherData?.dt?.toInt() ?? 0)}",style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.normal)),
+              Text(
+                "${weatherData?.name}",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+              Text(
+                  "Updated:${convertTimeStampToHumanHour(weatherData?.dt?.toInt() ?? 0)}",
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
+              Text(
+                  "${weatherData?.weather?[0].description}",
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal
+                  )
+              ),
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.network(
-                      "https://openweathermap.org/img/wn/${weatherData?.weather?[0].icon}@2x.png",width: 100,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.image,weight: 50,);
-                      },
+
+                    Text(
+                        "${weatherData?.main?.temp?.round()}\u00B0",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
+                        )
                     ),
-                    Text("${weatherData?.main?.temp?.round()}\u00B0",style: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold)),
 
                     Column(
                       children: [
-                        Text("max: ${weatherData?.main?.tempMax}\u00B0",style: const TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.normal)),
-                        Text("min: ${weatherData?.main?.tempMin}\u00B0",style: const TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.normal)),
+                        Text(
+                            "max: ${weatherData?.main?.tempMax}\u00B0",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal
+                            )
+                        ),
+                        Text(
+                            "min: ${weatherData?.main?.tempMin}\u00B0",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal
+                            )
+                        ),
                       ],
                     ),
 
                   ],
                 ),
               ),
-              Text("${weatherData?.weather?[0].description}",style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.normal)),
+
 
             ],
           ),
